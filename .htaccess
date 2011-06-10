@@ -1,0 +1,6 @@
+# comente as linhas abaixo para ambiente de produção
+setenv ENVIRONMENT dev
+
+RewriteEngine on
+RewriteCond $1 !^(index\.php)
+RewriteRule ^(.*)$ index.php/$1 [L]
