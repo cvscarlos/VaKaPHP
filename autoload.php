@@ -28,9 +28,17 @@ class Autoload
 			return false;
 		include_once SITE_PATH."helpers/".$className.".php";
 	}
+	
+	static public function lib($className)
+	{
+		if(!file_exists(SITE_PATH."lib/".$className.".php"))
+			return false;
+		include_once SITE_PATH."lib/".$className.".php";
+	}
 }
 
 spl_autoload_register(array('Autoload', 'controllers'));
 spl_autoload_register(array('Autoload', 'classes'));
 spl_autoload_register(array('Autoload', 'helpers'));
+spl_autoload_register(array('Autoload', 'lib'));
 ?>
