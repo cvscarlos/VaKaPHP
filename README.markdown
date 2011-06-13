@@ -1,5 +1,6 @@
-Vaca PHP Framework
+VaKa PHP Framework
 =============
+------------------
 
 This is a PHP framework compact and functional! 
 Based on [Toro](http://www.toroweb.org) and [MicroMVC](http://www.micromvc.com)

@@ -1,5 +1,6 @@
 <?php
 /*
+* VakaPHP Framework
 * @author Carlos Vinicius <caljp13@gmail.com>
 *
 * This work is licensed under the Creative Commons Attribution 3.0 Unported License. To view a copy of this license,
@@ -11,13 +12,13 @@ class Renderer
 {
 	static public function renderPage($data="", $page="page")
 	{
-		include_once(SITE_PATH."view_c/".$page.".php");
+		include_once(SITE_PATH."view/".$page.".php");
 	}
 	
 	static public function getContent($page, $data="")
 	{
 		ob_start();
-		include_once(SITE_PATH."view_c/".$page.".php");
+		include_once(SITE_PATH."view/".$page.".php");
 		return ob_get_clean();
 	}
 }

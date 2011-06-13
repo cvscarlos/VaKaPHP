@@ -101,8 +101,9 @@ class ToroApplication {
             ToroHook::fire('after_handler');
         }
         else {
+			include_once(SITE_PATH."lib/Renderer.php");
             header('HTTP/1.0 404 Not Found');
-            echo '404 Not Found';
+            Renderer::renderPage(null,"error404");
             exit;
         }
     
@@ -133,8 +134,9 @@ class ToroHandler {
     public function __construct() { }
 
     public function __call($name, $arguments) {
+		include_once(SITE_PATH."lib/Renderer.php");
         header('HTTP/1.0 404 Not Found');
-        echo '404 Not Found';
+        Renderer::renderPage(null,"error404");
         exit;
     }
 }
