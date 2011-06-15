@@ -2,5 +2,6 @@
 setenv ENVIRONMENT dev
 
 RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !public
 RewriteCond $1 !^(index\.php)
 RewriteRule ^(.*)$ index.php/$1 [L]

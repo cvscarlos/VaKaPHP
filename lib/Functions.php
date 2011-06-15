@@ -12,7 +12,7 @@ class Functions extends MicroMvcFunctions
 	public static function messages($name)
 	{
 		include_once (SITE_PATH."messages.php");
-		return $msg[$name];
+		return @$msg[$name];
 	}
 }
 
