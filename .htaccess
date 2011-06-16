@@ -1,6 +1,10 @@
-# comente as linhas abaixo para ambiente de produção
+# Comment the line below to production environment
+# Comente a linha abaixo para ambiente de produção
 setenv ENVIRONMENT dev
 
+
+# Components of the framework
+# Componentes do framework
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !public
 RewriteCond $1 !^(index\.php)

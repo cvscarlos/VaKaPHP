@@ -1,0 +1,12 @@
+/*
+* CSS
+* File auto load
+* Exemple
+*/
+.exemple {
+	float: right;
+	margin-top: 10px;
+	position: relative;
+	right: 0;
+	z-index: 99999;
+}

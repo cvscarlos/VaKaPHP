@@ -5,8 +5,9 @@
 */
 
 body{
-	font-family:Arial, Verdaana;
+	font-family:Arial,Verdana;
 	color:#474747;
+	font-size:14px;
 }
 #bodyContainer div {
 }

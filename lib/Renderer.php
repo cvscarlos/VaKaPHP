@@ -15,11 +15,17 @@ class Renderer
 	private static $code="";
 	private static $cssCode="";
 	
+	/*
+	* @method renderPage
+	*/
 	static public function renderPage($data="", $page="page")
 	{
 		include_once(SITE_PATH."view/".$page.".php");
 	}
 	
+	/*
+	* @method getContent
+	*/
 	static public function getContent($page, $data="")
 	{
 		ob_start();
@@ -27,40 +33,88 @@ class Renderer
 		return ob_get_clean();
 	}
 	
+	/*
+	* @method mergeDefaultCss
+	*/
+	static private function mergeDefaultCss()
+	{
+		global $default;
+		if(isset($default)&&array_key_exists("css",$default)&&is_array($default["css"]))
+			self::$styles=array_merge($default["css"],self::$styles);
+		self::$styles=array_unique(self::$styles);
+	}
+	
+	/*
+	* @method mergeDefaultJs
+	*/
+	static private function mergeDefaultJs()
+	{
+		global $default;
+		if(isset($default)&&array_key_exists("js",$default)&&is_array($default["js"]))
+			self::$scripts=array_merge($default["js"],self::$scripts);
+		self::$scripts=array_unique(self::$scripts);
+	}
+	
+	/*
+	* @method setCss
+	*/
 	static public function setCss($styles)
 	{
 		self::$styles=$styles;
 	}
 	
+	/*
+	* @method setCssCode
+	*/
 	static public function setCssCode($cssCode)
 	{
 		self::$cssCode=$cssCode;
 	}
 	
+	/*
+	* @method setJs
+	*/
 	static public function setJs($scripts)
 	{
 		self::$scripts=$scripts;
 	}
 	
+	/*
+	* @method setJsCode
+	*/
 	static public function setJsCode($code)
 	{
 		self::$code=$code;
 	}
 	
+	/*
+	* @method printCss
+	*/
 	static public function printCss()
 	{
+		self::mergeDefaultCss();
+		
 		foreach(self::$styles as $css)
-			echo "<link rel='stylesheet' href='".URL_PUBLIC_FOLDER.$css."' />";
+			echo "<link rel='stylesheet' href='".URL_PUBLIC_FOLDER.$css."' type='text/css' />";
 	}
 	
+	/*
+	* @method printJs
+	*/
 	static public function printJs()
 	{
+		self::mergeDefaultJs();
+
 		foreach(self::$scripts as $js)
 			echo "<script type='text/javascript' src='".URL_PUBLIC_FOLDER.$js."'></script>";
 	}
 	
+	/*
+	* @method printCompressedCss
+	*/
 	static public function printCompressedCss()
 	{
+		self::mergeDefaultCss();
 		$cacheDir=PUBLIC_PATH."compressed_cache";
 		$fileName=str_replace(array("\\","/"),"_",implode(",",self::$styles));
 		$cssCode="";
@@ -71,22 +125,38 @@ class Renderer
 			return self::printCss();
 		}
 		
+		if(empty($fileName)) return;
+		
 		if(file_exists($cacheDir."/".$fileName))
-			echo "<script type='text/javascript' src='".URL_PUBLIC_FOLDER."compressed_cache/".urlencode($fileName)."'></script>";
+			echo "<link rel='stylesheet' href='".URL_PUBLIC_FOLDER."compressed_cache/".urlencode($fileName)."' type='text/css' />";
 		else
 		{
-			foreach(self::$styles as $js)
-				$cssCode.=file_get_contents(PUBLIC_PATH.$js)."\n\n";
-				
+			foreach(self::$styles as $css)
+			{
+				if(file_exists(PUBLIC_PATH.$css))
+					$cssCode.=file_get_contents(PUBLIC_PATH.$css)."\n\n";
+				else
+				{
+					echo "<!-- file not found: $css | Arquivo não encontrado: $css -->\n";
+					$cssCode.="";
+				}
+			}
+			
+			if(empty($cssCode)) return;
+			
 			$cssc = new CSSCompression($cssCode);
 			file_put_contents($cacheDir."/".$fileName,$cssc->css);
 			
-			echo "<link rel='stylesheet' href='".URL_PUBLIC_FOLDER."compressed_cache/".urlencode($fileName)."' />";
+			echo "<link rel='stylesheet' href='".URL_PUBLIC_FOLDER."compressed_cache/".urlencode($fileName)."' type='text/css' />";
 		}
 	}
 	
+	/*
+	* @method printCompressedJs
+	*/
 	static public function printCompressedJs()
 	{
+		self::mergeDefaultJs();
 		$cacheDir=PUBLIC_PATH."compressed_cache";
 		$fileName=str_replace(array("\\","/"),"_",implode(",",self::$scripts));
 		$jsCode="";
@@ -97,13 +167,25 @@ class Renderer
 			return self::printJs();
 		}
 		
+		if(empty($fileName)) return;
+		
 		if(file_exists($cacheDir."/".$fileName))
 			echo "<script type='text/javascript' src='".URL_PUBLIC_FOLDER."compressed_cache/".urlencode($fileName)."'></script>";
 		else
 		{
 			foreach(self::$scripts as $js)
-				$jsCode.=file_get_contents(PUBLIC_PATH.$js)."\n\n";
-				
+			{
+				if(file_exists(PUBLIC_PATH.$js))
+					$jsCode.=file_get_contents(PUBLIC_PATH.$js)."\n\n";
+				else
+				{
+					echo "<!-- file not found: $js | Arquivo não encontrado: $js -->\n";
+					$jsCode.="";
+				}
+			}
+			
+			if(empty($jsCode)) return;
+			
 			$packer = new JavaScriptPacker($jsCode);
 			file_put_contents($cacheDir."/".$fileName,$packer->pack());
 			
@@ -111,12 +193,18 @@ class Renderer
 		}
 	}
 	
+	/*
+	* @method printJsCode
+	*/
 	static public function printJsCode()
 	{
 		if(!empty(self::$code))
 			echo "<script type='text/javascript'>\n".self::$code."\n</script>";
 	}
 	
+	/*
+	* @method printCssCode
+	*/
 	static public function printCssCode()
 	{
 		if(!empty(self::$cssCode))
