@@ -15,6 +15,13 @@ class Functions extends MicroMvcFunctions
 		return @$msg[$name];
 	}
 	
+	public static function redirectTo($url=""){
+		if((strpos($url, "http://")!==false) || (strpos($url, "https://")!==false) || (strpos($url, "ftp://")!==false))
+			header("Location: ".$url);
+		else
+			header("Location: ".SITE_URL.$url);
+	}
+	
 	public static function replaceChars($str="")
 	{
 		$list=array(

@@ -8,14 +8,19 @@
 
 class Mysql{
 
+	// const DB_SERVER="box707.bluehost.com";
+	// const DB_USERNAME="kviniciu_proj3";
+	// const DB_PASSWORD="korn4406";
+	// const DB_SCHEMA="kviniciu_projects";
 	const DB_SERVER="localhost";
 	const DB_USERNAME="root";
 	const DB_PASSWORD="";
-	const DB_SCHEMA="mysql";
+	const DB_SCHEMA="livra409_loja";
 	
 	public function query($query="")
 	{
 		if(empty($query)) return "Query is empty!";
+		$row=null;
 		
 		$mysqli = new mysqli(self::DB_SERVER, self::DB_USERNAME, self::DB_PASSWORD, self::DB_SCHEMA);
 
@@ -81,13 +86,16 @@ class Mysql{
 		foreach($whereArray as $v)
 		{
 			if(is_array($v))
-				$restrictions.="`{$v[0]}`='{$v[1]}'";
+				$restrictions.="`".key($v)."`='".current($v)."'";
 			else
 				$restrictions.=" $v ";
 		}
 
-		$query=sprintf("UPDATE `isc_product_search` SET %s WHERE %s",
-			implode(", ",$fields));
+		$query=sprintf("UPDATE `%s` SET %s WHERE %s",
+			$table,
+			implode(", ",$fields),
+			empty($restrictions)?1:$restrictions
+		);
 		
 		return $this->query($query);
 	}

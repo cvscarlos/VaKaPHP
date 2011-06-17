@@ -3,5 +3,5 @@
 
 ------------------
 
-* Não remova o arquivo "compressed_cache" pois ele é utilizado na aplicação
+* Não remova o diretório "compressed_cache" pois ele é utilizado na aplicação
 * Conceda permissão de leitura e escrita para o diretório "compressed_cache"
