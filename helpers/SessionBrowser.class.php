@@ -91,9 +91,13 @@ class SessionBrowser {
 	{
 		$this->sessionSessionName=is_null($name)?$this->sessionSessionName:$name;
 		if(!is_null($data)){
-			foreach($data as $k=>$v){
-				$_SESSION[$this->sessionSessionName.$this->sessionSessionNameSufix][$k]=$v;
-			}
+			if(is_array($data))
+			{
+				foreach($data as $k=>$v)
+					$_SESSION[$this->sessionSessionName.$this->sessionSessionNameSufix][$k]=$v;
+			}	
+			else
+				$_SESSION[$this->sessionSessionName.$this->sessionSessionNameSufix]=$data;
 		}
 	}
 	
