@@ -7,8 +7,8 @@
 *	
 *	Uso básico, Iniciando:
 *		$session = new SessionBrowser();
-*       $session->setName("nomeMinhaSessao");
-*       $session->setData(array("meus dados"));
+*		$session->setName("nomeMinhaSessao");
+*		$session->setData(array("meus dados"));
 *	
 *	Uso básico, Consultando:
 *		$session = new SessionBrowser();
