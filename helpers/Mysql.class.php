@@ -4,6 +4,32 @@
 *
 * This work is licensed under the Creative Commons Attribution 3.0 Unported License. To view a copy of this license,
 * visit http://creativecommons.org/licenses/by/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+*
+* EXAMPLES OF USAGE:
+* 
+* ## Query:
+* 	$mysql = new Mysql();
+* 	$result = $mysql->query("SELECT * FROM `user`;");
+* 	foreach($result as $v)
+* 	{
+* 		...
+* 	}
+* 
+* ## Insert:
+* 	$mysql = new Mysql();
+* 	$insertId=$mysql->insert("user",array(
+* 		"username"=>$_POST["username"],
+* 		"password"=>$_POST["password"]
+* 	));
+* 	echo "Data inserted in id "+$insertId;
+* 
+* ## Update:
+* 	$mysql = new Mysql();
+* 	$mysql->update("user",array("password"=>$_POST["newPassword"]),array(array("id"=>1)));
+* ## or
+* 	$mysql = new Mysql();
+* 	$mysql->update("user",array("password"=>$_POST["newPassword"]),array(array("id"=>1),"OR",array("username"=>$_POST["username"])));
+* 
 */
 
 class Mysql{
