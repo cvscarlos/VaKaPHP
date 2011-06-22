@@ -21,7 +21,7 @@
 // Constantes, para definir padrões
 defined('SB_SESSIONNAME') or define('SB_SESSIONNAME', $_SERVER['HTTP_HOST']);
 defined('SB_SESSIONNAME_SUFIX') or define('SB_SESSIONNAME_SUFIX', "_data");
-defined('SB_SESSIONID') or define('SB_SESSIONID', md5(time()).str_replace('.','_',SB_SESSIONNAME));
+defined('SB_SESSIONID') or define('SB_SESSIONID', md5(time()));
 defined('SB_LIFETIME') or define('SB_LIFETIME', 0); // default to browser's closing.
 defined('SB_PATH') or define('SB_PATH', "/");
 

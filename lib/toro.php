@@ -1,4 +1,7 @@
 <?php
+/*
+* @contributor Carlos Vinicius (VakaPHP Framework) <caljp13@gmail.com>
+*/
 
 class InvalidRouteType extends Exception {}
 
@@ -46,8 +49,14 @@ class ToroApplication {
     public function serve() {
         ToroHook::fire('before_request');
     
+		if(isset($_SERVER["PATH_INFO"]))
+			$path_info=$_SERVER["PATH_INFO"];
+		elseif(isset($_SERVER["ORIG_PATH_INFO"]))
+			$path_info=$_SERVER["ORIG_PATH_INFO"];
+		else
+			$path_info="/";
+
         $request_method = strtolower($_SERVER['REQUEST_METHOD']);
-        $path_info = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
         $discovered_handler = NULL;
         $regex_matches = array();
         $method_arguments = NULL;
