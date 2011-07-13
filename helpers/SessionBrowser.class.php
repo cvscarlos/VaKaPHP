@@ -3,7 +3,7 @@
 /*	Classe para manipulação de sessão. 
 *	Criada por Mauricio Rocha em 23/11/2010 com colaboração de Carlos Vinicius
 *	
-*	Versão 2.0 20/06/2011
+*	Versão 2.0 20/06/2011 por Carlos Vinicius
 *	
 *	Uso básico, Iniciando:
 *		$session = new SessionBrowser();
