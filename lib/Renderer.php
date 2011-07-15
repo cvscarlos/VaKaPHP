@@ -116,7 +116,7 @@ class Renderer
 	{
 		self::mergeDefaultCss();
 		$cacheDir=PUBLIC_PATH."compressed_cache";
-		$fileName=str_replace(array("\\","/"),"_",implode(",",self::$styles));
+		$fileName=md5(str_replace(array("\\","/"),"_",implode(",",self::$styles))).".css";
 		$cssCode="";
 		
 		if(!is_writable($cacheDir))
@@ -158,7 +158,7 @@ class Renderer
 	{
 		self::mergeDefaultJs();
 		$cacheDir=PUBLIC_PATH."compressed_cache";
-		$fileName=str_replace(array("\\","/"),"_",implode(",",self::$scripts));
+		$fileName=md5(str_replace(array("\\","/"),"_",implode(",",self::$scripts))).".js";
 		$jsCode="";
 		
 		if(!is_writable($cacheDir))
