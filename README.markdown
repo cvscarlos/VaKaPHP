@@ -1,4 +1,4 @@
-VakaPHP Framework
+VaKaPHP Framework
 =============
 ------------------
 
