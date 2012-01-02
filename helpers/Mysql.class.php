@@ -32,16 +32,12 @@
 * 
 */
 
-class Mysql{
-
-	// const DB_SERVER="box707.bluehost.com";
-	// const DB_USERNAME="kviniciu_proj3";
-	// const DB_PASSWORD="korn4406";
-	// const DB_SCHEMA="kviniciu_projects";
+class Mysql
+{
 	const DB_SERVER="localhost";
 	const DB_USERNAME="root";
 	const DB_PASSWORD="";
-	const DB_SCHEMA="livra409_loja";
+	const DB_SCHEMA="bd_test";
 	
 	public function query($query="")
 	{
