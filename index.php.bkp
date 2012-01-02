@@ -3,9 +3,6 @@
 * VakaPHP Framework < http://github.com/caljp13/VakaPHP >
 * @author Carlos Vinicius <caljp13@gmail.com>
 *
-* @version 2.0
-* @date 2012-01-02
-*
 * This work is licensed under the Creative Commons Attribution 3.0 Unported License. To view a copy of this license,
 * visit http://creativecommons.org/licenses/by/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 */
@@ -14,8 +11,16 @@
 // Constants required
 // Constantes obrigatórias
 defined("ENVIRONMENT") or define("ENVIRONMENT", getenv('ENVIRONMENT')); // Edit the htaccess to change the mode for production // Edite o .htaccess para alterar o modo para produção
-defined("SITE_PATH") or define("SITE_PATH", dirname(__FILE__)."/");
-defined("SITE_URL") or define("SITE_URL", strtolower(preg_replace('/[^a-zA-Z]/','',$_SERVER['SERVER_PROTOCOL']))."://".$_SERVER['HTTP_HOST'].preg_replace("/index\.php(.*)/","",$_SERVER['SCRIPT_NAME']));
+if(!ENVIRONMENT) // prod
+{
+	defined("SITE_PATH") or define("SITE_PATH", dirname(__FILE__)."/");
+	defined("SITE_URL") or define("SITE_URL", strtolower(preg_replace('/[^a-zA-Z]/','',$_SERVER['SERVER_PROTOCOL']))."://".$_SERVER['HTTP_HOST'].preg_replace("/index\.php(.*)/","",$_SERVER['PHP_SELF']));
+}
+elseif(ENVIRONMENT=="dev") // dev
+{
+	defined("SITE_PATH") or define("SITE_PATH", dirname(__FILE__)."/");
+	defined("SITE_URL") or define("SITE_URL", strtolower(preg_replace('/[^a-zA-Z]/','',$_SERVER['SERVER_PROTOCOL']))."://".$_SERVER['HTTP_HOST'].str_replace($_SERVER['PATH_INFO'],"/",$_SERVER['REQUEST_URI']));
+}
 defined("PUBLIC_PATH") or define("PUBLIC_PATH", SITE_PATH."public/");
 defined("URL_PUBLIC_FOLDER") or define("URL_PUBLIC_FOLDER", SITE_URL."public/");
 
