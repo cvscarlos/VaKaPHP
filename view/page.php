@@ -10,7 +10,8 @@
 <body class="<?php global $info; echo $info["browserCss"]." ".$info["browserVersionCss"];?>">
 	<?php echo $data["render"];?>
 	<?php // Renderer::printJs();?>
-	<?php Renderer::printCompressedJs();?>
+	<?php Renderer::printCompressedJs("google_compressor");?>
+	<?php // Renderer::printCompressedJs();?>
 	<?php Renderer::printJsCode();?>
 </body>
 </html>

@@ -3,6 +3,9 @@
 * VakaPHP Framework
 * @author Carlos Vinicius <caljp13@gmail.com>
 *
+* @version 2.0
+* @date 2012-01-11
+*
 * This work is licensed under the Creative Commons Attribution 3.0 Unported License. To view a copy of this license,
 * visit http://creativecommons.org/licenses/by/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 */
@@ -154,7 +157,7 @@ class Renderer
 	/*
 	* @method printCompressedJs
 	*/
-	static public function printCompressedJs()
+	static public function printCompressedJs($compressor="")
 	{
 		self::mergeDefaultJs();
 		$cacheDir=PUBLIC_PATH."compressed_cache";
@@ -186,13 +189,45 @@ class Renderer
 			
 			if(empty($jsCode)) return;
 			
-			$packer = new JavaScriptPacker($jsCode);
-			file_put_contents($cacheDir."/".$fileName,$packer->pack());
+            if($compressor=="google_compressor")
+                self::googleCompressJs($cacheDir,$jsCode,$fileName);
+            else
+            {
+                $packer = new JavaScriptPacker($jsCode);
+                file_put_contents($cacheDir."/".$fileName,$packer->pack());
+            }
 			
 			echo "<script type='text/javascript' src='".URL_PUBLIC_FOLDER."compressed_cache/".urlencode($fileName)."'></script>";
 		}
 	}
 	
+	/*
+	* @method googleCompressJs
+	*/
+	static private function googleCompressJs($cacheDir,$jsCode,$fileName)
+	{
+        if(!function_exists('curl_init'))
+        {
+            $packer = new JavaScriptPacker($jsCode);
+            file_put_contents($cacheDir."/".$fileName,$packer->pack());
+        }
+        else
+        {
+            file_put_contents($cacheDir."/".$fileName,$jsCode);
+            
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "http://closure-compiler.appspot.com/compile");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "code_url=".URL_PUBLIC_FOLDER."compressed_cache/".urlencode($fileName)."&compilation_level=SIMPLE_OPTIMIZATIONS&output_format=text&output_info=compiled_code");
+            $output = curl_exec($ch);
+            curl_close($ch);
+            
+            file_put_contents($cacheDir."/".$fileName,$output);
+        }
+	}
+    
 	/*
 	* @method printJsCode
 	*/
