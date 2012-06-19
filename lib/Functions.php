@@ -1,10 +1,17 @@
 <?php
-/*
+/**
 * VakaPHP Framework
 * @author Carlos Vinicius <caljp13@gmail.com>
 *
 * This work is licensed under the Creative Commons Attribution 3.0 Unported License. To view a copy of this license,
 * visit http://creativecommons.org/licenses/by/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+*
+* Functions index
+* - messages(filedName) => validaÃ§Ã£o de formulÃ¡rio
+* - redirectTo(url/uri) => Redireciona para outra url
+* - replaceChars(string) => Substitui caracteres especiais
+* - getIp([TRUE]) => Retorna o IP do usuÃ¡rio, se passado um parametro como TRUE retorna todos os ips encontrados
+* - isAjax() => retorna um booleano informando se a requisiÃ§Ã£o Ã© via Ajax ou nÃ£o
 */
 
 class Functions extends MicroMvcFunctions
@@ -25,47 +32,47 @@ class Functions extends MicroMvcFunctions
 	public static function replaceChars($str="")
 	{
 		$list=array(
-			"ç"=>"c",
-			"æ"=>"ae",
-			"œ"=>"oe",
-			"á"=>"a",
-			"é"=>"e",
-			"í"=>"i",
-			"ó"=>"o",
-			"ú"=>"u",
-			"à"=>"a",
-			"è"=>"e",
-			"ì"=>"i",
-			"ò"=>"o",
-			"ù"=>"u",
-			"ä"=>"a",
-			"ë"=>"e",
-			"ï"=>"i",
-			"ö"=>"o",
-			"ü"=>"u",
-			"ÿ"=>"y",
-			"â"=>"a",
-			"ê"=>"e",
-			"î"=>"i",
-			"ô"=>"o",
-			"û"=>"u",
-			"å"=>"a",
-			"ã"=>"a",
-			"ø"=>"o",
-			"Á"=>"A",
-			"É"=>"E",
-			"Í"=>"I",
-			"Ó"=>"O",
-			"Û"=>"U",
-			"Ú"=>"U",
-			"Ù"=>"U",
-			"Ê"=>"E",
-			"Ô"=>"O",
-			"Ü"=>"U",
-			"Ã"=>"A",
-			"Õ"=>"O",
-			"À"=>"A",
-			"Ç"=>"C",
+			"Ã§"=>"c",
+			"Ã¦"=>"ae",
+			"Å“"=>"oe",
+			"Ã¡"=>"a",
+			"Ã©"=>"e",
+			"Ã­"=>"i",
+			"Ã³"=>"o",
+			"Ãº"=>"u",
+			"Ã "=>"a",
+			"Ã¨"=>"e",
+			"Ã¬"=>"i",
+			"Ã²"=>"o",
+			"Ã¹"=>"u",
+			"Ã¤"=>"a",
+			"Ã«"=>"e",
+			"Ã¯"=>"i",
+			"Ã¶"=>"o",
+			"Ã¼"=>"u",
+			"Ã¿"=>"y",
+			"Ã¢"=>"a",
+			"Ãª"=>"e",
+			"Ã®"=>"i",
+			"Ã´"=>"o",
+			"Ã»"=>"u",
+			"Ã¥"=>"a",
+			"Ã£"=>"a",
+			"Ã¸"=>"o",
+			"Ã"=>"A",
+			"Ã‰"=>"E",
+			"Ã"=>"I",
+			"Ã“"=>"O",
+			"Ã›"=>"U",
+			"Ãš"=>"U",
+			"Ã™"=>"U",
+			"ÃŠ"=>"E",
+			"Ã”"=>"O",
+			"Ãœ"=>"U",
+			"Ãƒ"=>"A",
+			"Ã•"=>"O",
+			"Ã€"=>"A",
+			"Ã‡"=>"C",
 			" "=>"_",
 			"%"=>"por100",
 			"\\"=>"_",
@@ -76,11 +83,35 @@ class Functions extends MicroMvcFunctions
 			":"=>"_",
 			"?"=>"_",
 			"!"=>"_",
-			"º"=>"_",
-			"ª"=>"_"
+			"Âº"=>"_",
+			"Âª"=>"_"
 		);
 		return str_replace(array_keys($list),array_values($list),$str);
 	}
+	
+	public static function getIp($returnAll=false)
+	{
+		$variables = array('REMOTE_ADDR','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','HTTP_X_COMING_FROM','HTTP_COMING_FROM','HTTP_CLIENT_IP');
+		$return = 'Unknown';
+		$all=array();
+
+		foreach ($variables as $variable)
+			if (isset($_SERVER[$variable]))
+			{
+				$all[] = $return = $_SERVER[$variable];
+				break;
+			}
+		
+		if($returnAll)
+			return $all;
+		else
+			return $return;
+	}
+	
+	public static function isAjax()
+	{
+        return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+    }
 }
 
 
