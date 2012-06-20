@@ -14,6 +14,7 @@
 * 	{
 * 		...
 * 	}
+* 	$mysql->close();
 * 
 * ## Insert:
 * 	$mysql = new Mysql();
@@ -21,40 +22,52 @@
 * 		"username"=>$_POST["username"],
 * 		"password"=>$_POST["password"]
 * 	));
+* 	$mysql->close();
 * 	echo "Data inserted in id "+$insertId;
 * 
 * ## Update:
 * 	$mysql = new Mysql();
 * 	$mysql->update("user",array("password"=>$_POST["newPassword"]),array(array("id"=>1)));
+* 	$mysql->close();
 * ## or
 * 	$mysql = new Mysql();
 * 	$mysql->update("user",array("password"=>$_POST["newPassword"]),array(array("id"=>1),"OR",array("username"=>$_POST["username"])));
+* 	$mysql->close();
 * 
 */
 
 class Mysql
 {
+	private $conn;
+	
 	const DB_SERVER="localhost";
 	const DB_USERNAME="root";
 	const DB_PASSWORD="";
-	const DB_SCHEMA="bd_test";
+	const DB_SCHEMA="rating";
+	
+	function __construct()
+	{
+		$this->conn = new mysqli(self::DB_SERVER, self::DB_USERNAME, self::DB_PASSWORD, self::DB_SCHEMA);
+
+		if ($this->conn->connect_errno)
+			return sprintf("Connect failed: %s\n", $this->conn->connect_error);
+	}
 	
 	public function query($query="")
 	{
 		if(empty($query)) return "Query is empty!";
 		$row=null;
-		
-		$mysqli = new mysqli(self::DB_SERVER, self::DB_USERNAME, self::DB_PASSWORD, self::DB_SCHEMA);
-
-		if(mysqli_connect_errno())
-			return sprintf("Connect failed: %s\n", mysqli_connect_error());
 
 		$isInsert=false;
 		$tmp=explode(" ",trim($query));
 		if(strtolower($tmp[0])=="insert")
 			$isInsert=true;
 			
-		$result = $mysqli->query($query);
+		$result = $this->conn->query($query);
+		
+		if($this->conn->error !="")
+			return "#".$this->conn->errno." - ".$this->conn->error;
+		
 		if(is_object($result)&&!$isInsert){
 			while ($r=$result->fetch_array(MYSQLI_BOTH))
 			{
@@ -63,11 +76,9 @@ class Mysql
 			$result->close();
 		}
 		elseif($isInsert)
-			$row=mysqli_insert_id($mysqli);
+			$row=$this->conn->insert_id;
 		else
 			$row=$result;
-
-		$mysqli->close();
 
 		if(is_object($result)||$isInsert)
 			return $row;
@@ -92,7 +103,12 @@ class Mysql
 			implode(",",$values)
 		);
 		
-		return $this->query($query);
+		$query = $this->conn->query($query);
+		
+		if(!$query)
+			return "#".$this->conn->errno." - ".$this->conn->error;
+			
+		return $this->conn->insert_id;
 	}
 	
 	public function update($table, $dataArray, $whereArray)
@@ -119,7 +135,18 @@ class Mysql
 			empty($restrictions)?1:$restrictions
 		);
 		
-		return $this->query($query);
+		$query = $this->conn->query($query);
+		
+		if($this->conn->error !="")
+			return "#".$this->conn->errno." - ".$this->conn->error;
+			
+		return $query;
+	}
+	
+	public function close()
+	{
+		if(@$this->conn->ping()===true)
+			$this->conn->close();
 	}
 }
 ?>
