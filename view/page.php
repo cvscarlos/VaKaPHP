@@ -7,7 +7,7 @@
 	<?php Renderer::printCompressedCss();?>
 	<?php Renderer::printCssCode();?>
 </head>
-<body class="<?php global $info; echo $info["browserCss"]." ".$info["browserVersionCss"];?>">
+<body class="<?php global $info; echo $info["browserCss"]." ".$info["browserVersionCss"]; if(isset($data["bodyClass"]))echo" ".$data["bodyClass"];?>">
 	<?php echo $data["render"];?>
 	<?php // Renderer::printJs();?>
 	<?php Renderer::printCompressedJs("google_compressor");?>

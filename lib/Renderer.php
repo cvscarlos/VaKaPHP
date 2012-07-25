@@ -147,7 +147,7 @@ class Renderer
 			
 			if(empty($cssCode)) return;
 			
-			$cssc = new CSSCompression($cssCode);
+			$cssc = new CSSCompression($cssCode,array("border-radius-combine"=>false));
 			file_put_contents($cacheDir."/".$fileName,$cssc->css);
 			
 			echo "<link rel='stylesheet' href='".URL_PUBLIC_FOLDER."compressed_cache/".urlencode($fileName)."' type='text/css' />";
