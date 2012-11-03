@@ -142,7 +142,12 @@ class Mysql
 			
 		return $query;
 	}
-	
+		
+	public function getConnection()
+	{
+		return $this->conn;
+	}
+
 	public function close()
 	{
 		if(@$this->conn->ping()===true)
