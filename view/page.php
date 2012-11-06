@@ -9,6 +9,7 @@
 </head>
 <body class="<?php global $info; echo $info["browserCss"]." ".$info["browserVersionCss"]; if(isset($data["bodyClass"]))echo" ".$data["bodyClass"];?>">
 	<?php echo $data["render"];?>
+	<script type="text/javascript">var SITE_URL="<?php echo SITE_URL;?>";</script>
 	<?php // Renderer::printJs();?>
 	<?php Renderer::printCompressedJs("google_compressor");?>
 	<?php // Renderer::printCompressedJs();?>
