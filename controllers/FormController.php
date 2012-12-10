@@ -6,9 +6,8 @@
 * visit http://creativecommons.org/licenses/by/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 */
 
-class FormController extends ToroHandler
+class FormController
 {
-
     public function get($method=null)
 	{
 		// Executa quando nenhum parâmetro é passado após o endereço fixo da rota

@@ -13,7 +13,7 @@
 
 // Constants required
 // Constantes obrigatórias
-defined("ENVIRONMENT") or define("ENVIRONMENT", getenv('ENVIRONMENT')); // Edit the htaccess to change the mode for production // Edite o .htaccess para alterar o modo para produção
+// defined("ENVIRONMENT") or define("ENVIRONMENT", getenv('ENVIRONMENT')); // Edit the htaccess to change the mode for production // Edite o .htaccess para alterar o modo para produção
 defined("SITE_PATH") or define("SITE_PATH", dirname(__FILE__)."/");
 defined("SITE_URL") or define("SITE_URL", strtolower(preg_replace('/[^a-zA-Z]/','',$_SERVER['SERVER_PROTOCOL']))."://".$_SERVER['HTTP_HOST'].preg_replace("/index\.php(.*)/","",$_SERVER['SCRIPT_NAME']));
 defined("PUBLIC_PATH") or define("PUBLIC_PATH", SITE_PATH."public/");
@@ -42,7 +42,17 @@ $info["browserVersionCss"]=strtolower(str_ireplace(array("internet explorer"," "
 
 // Components of the framework
 // Componentes do framework
-require_once SITE_PATH.'lib/toro.php';
+require_once SITE_PATH.'lib/Toro.php';
 require_once SITE_PATH.'routers.php';
-$routes->serve();
-?>
+
+
+// Página de erro 404
+function error404(){
+	header('HTTP/1.0 404 Not Found');
+	Renderer::renderPage(null,"error404");
+}
+ToroHook::add("404", error404);
+
+
+// Executando o núcleo o framework
+Toro::Serve($routes);

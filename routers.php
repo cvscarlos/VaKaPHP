@@ -1,14 +1,13 @@
 <?php
-$routes = new ToroApplication(array(
+$routes = array(
 
-    array('/', 'MainController'),
-    array("compress", 'CompressController'),
-    array("form", 'FormController'),
-    array("form/([a-zA-Z0-9_]+)", 'FormController'), // send
-    array("test/", 'TestController'),
-    array("login", 'LoginController'),
-    array("test/([a-zA-Z0-9_]+)", 'TestController'),
-    array("test/([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)", 'TestController')
+    "/"=>"MainController",
+    "compress"=>"CompressController",
+    "form"=>"FormController",
+    "form/([a-zA-Z0-9_]+)"=>"FormController",
+    "test/"=>"TestController",
+    "login"=>"LoginController",
+    "test/([a-zA-Z0-9_]+)"=>"TestController",
+    "test/([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)"=>"TestController"
 	
-));
-?>
+);

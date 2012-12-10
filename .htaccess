@@ -1,6 +1,6 @@
 # Comment out the lines below to production environment
 # Comente as linhas abaixo para ambiente de produção
-setenv ENVIRONMENT dev
+# setenv ENVIRONMENT dev
 
 
 # Configurações do Framework
