@@ -27,31 +27,31 @@ class Autoload
 	static public function controllers($className)
 	{
 		if(file_exists(SITE_PATH."controller/".$className.".php"))
-			include_once SITE_PATH."controller/".$className.".php";
+			require_once SITE_PATH."controller/".$className.".php";
 	}
 	
 	static public function classes($className)
 	{
 		if(file_exists(SITE_PATH."helpers/".$className.".class.php"))
-			include_once SITE_PATH."helpers/".$className.".class.php";
+			require_once SITE_PATH."helpers/".$className.".class.php";
 	}
 	
 	static public function helpers($className)
 	{
 		if(file_exists(SITE_PATH."helpers/".$className.".php"))
-			include_once SITE_PATH."helpers/".$className.".php";
+			require_once SITE_PATH."helpers/".$className.".php";
 	}
 	
 	static public function lib($className)
 	{
 		if(file_exists(SITE_PATH."lib/".$className.".php"))
-			include_once SITE_PATH."lib/".$className.".php";
+			require_once SITE_PATH."lib/".$className.".php";
 	}
 	
 	static public function models($className)
 	{
 		if(file_exists(SITE_PATH."model/".$className.".php"))
-			include_once SITE_PATH."model/".$className.".php";
+			require_once SITE_PATH."model/".$className.".php";
 	}
 }
 
