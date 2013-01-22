@@ -295,5 +295,15 @@ class Validation
 	{
 		if(!$this->token||!class_exists('session',0))return TRUE;if(Session::token(post('token')))return TRUE;$this->_set_error('token','invalid_token');return FALSE;
 	}
+
+	/**
+	 * Check to see if the email entered is valid.
+	 *
+	 * @param string $data to validate
+	 * @return boolean
+	 */
+	protected function email($field, $data)
+	{
+		if(preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $data))return TRUE;$this->_set_error($field,'email');return FALSE;
+	}
 }
-?>

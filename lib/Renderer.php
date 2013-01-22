@@ -246,4 +246,3 @@ class Renderer
 			echo "<style type='text/css'>\n".self::$cssCode."\n</style>";
 	}
 }
-?>

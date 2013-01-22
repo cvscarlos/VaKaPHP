@@ -3,6 +3,7 @@
  * Form Validation
  * By microMVC
  */
+$msg=array();
 $msg['validation_no_rules'] = 'The %s field does not contain a valid rule (%s)';
 $msg['validation_rule_not_found'] = 'The %s form rule was not found.';
 $msg['validation_set']= 'The %s field must be submitted.';
@@ -17,4 +18,4 @@ $msg['validation_valid_email'] = 'The %s field must contain a valid email addres
 $msg['validation_valid_base64'] = 'The %s field must contian valid Base 64 characters.';
 $msg['validation_matches'] = 'The %s and %s fields do not match.';
 $msg['validation_invalid_token'] = 'Your session token was invalid. Please try again.';
-?>
+$msg['validation_email'] = 'The %s field not contain valid e-mail.';
