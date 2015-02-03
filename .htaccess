@@ -9,3 +9,12 @@ Options -Indexes
 RewriteEngine On
 RewriteCond $1 !^(index\.php|public/)
 RewriteRule ^(.*)$ index.php/$1 [L]
+
+
+# ***************************
+# * Caso não funcione, tente:
+# * If this fails, try:
+
+	# RewriteEngine on
+	# RewriteCond $1 !^(index\.php|robots\.txt|sitemap\.xml|public\/)
+	# RewriteRule ^(.*)$ /index.php?_VAKA=/$1 [QSA,L]
