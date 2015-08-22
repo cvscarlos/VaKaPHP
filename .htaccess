@@ -7,7 +7,7 @@
 # Settings Framework
 Options -Indexes
 RewriteEngine On
-RewriteCond $1 !^(index\.php|public/)
+RewriteCond $1 !^(index\.php|robots\.txt|sitemap\.xml|public\/)
 RewriteRule ^(.*)$ index.php/$1 [L]
 
 
