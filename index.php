@@ -43,7 +43,7 @@ $info["browserVersionCss"]=strtolower(str_ireplace(array("internet explorer"," "
 // Components of the framework
 // Componentes do framework
 require_once SITE_PATH.'lib/Toro.php';
-require_once SITE_PATH.'routers.php';
+require_once SITE_PATH.'routes.php';
 
 
 // Página de erro 404
