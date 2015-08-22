@@ -4,18 +4,27 @@ class Toro
 {
     public static function serve($routes)
     {
-        ToroHook::fire('before_request');
+        ToroHook::fire('before_request', compact('routes'));
 
         $request_method = strtolower($_SERVER['REQUEST_METHOD']);
         $path_info = '/';
-        $path_info = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : (isset($_SERVER['ORIG_PATH_INFO']) ? $_SERVER['ORIG_PATH_INFO'] : (isset($_SERVER['QUERY_STRING']) ? $_REQUEST['_VAKA'] : $path_info));
+
+        if (! empty($_SERVER['PATH_INFO'])) {
+            $path_info = $_SERVER['PATH_INFO'];
+        } elseif (! empty($_SERVER['ORIG_PATH_INFO']) && $_SERVER['ORIG_PATH_INFO'] !== '/index.php') {
+            $path_info = $_SERVER['ORIG_PATH_INFO'];
+        } else {
+            if (! empty($_SERVER['REQUEST_URI'])) {
+                $path_info = (strpos($_SERVER['REQUEST_URI'], '?') > 0) ? strstr($_SERVER['REQUEST_URI'], '?', true) : $_SERVER['REQUEST_URI'];
+            }
+        }
+        
         $discovered_handler = null;
         $regex_matches = array();
 
         if (isset($routes[$path_info])) {
             $discovered_handler = $routes[$path_info];
-        }
-        else if ($routes) {
+        } elseif ($routes) {
             $tokens = array(
                 ':string' => '([a-zA-Z]+)',
                 ':number' => '([0-9]+)',
@@ -31,11 +40,21 @@ class Toro
             }
         }
 
-        if ($discovered_handler && class_exists($discovered_handler)) {
-            unset($regex_matches[0]);
-            $handler_instance = new $discovered_handler();
+        $result = null;
+        $handler_instance = null;
 
-            if (self::is_xhr_request() && method_exists($discovered_handler, $request_method . '_xhr')) {
+        if ($discovered_handler) {
+            if (is_string($discovered_handler)) {
+                $handler_instance = new $discovered_handler();
+            } elseif (is_callable($discovered_handler)) {
+                $handler_instance = $discovered_handler();
+            }
+        }
+
+        if ($handler_instance) {
+            unset($regex_matches[0]);
+
+            if (self::is_xhr_request() && method_exists($handler_instance, $request_method . '_xhr')) {
                 header('Content-type: application/json');
                 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
                 header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
@@ -46,19 +65,17 @@ class Toro
             }
 
             if (method_exists($handler_instance, $request_method)) {
-                ToroHook::fire('before_handler');
-                call_user_func_array(array($handler_instance, $request_method), $regex_matches);
-                ToroHook::fire('after_handler');
+                ToroHook::fire('before_handler', compact('routes', 'discovered_handler', 'request_method', 'regex_matches'));
+                $result = call_user_func_array(array($handler_instance, $request_method), $regex_matches);
+                ToroHook::fire('after_handler', compact('routes', 'discovered_handler', 'request_method', 'regex_matches', 'result'));
+            } else {
+                ToroHook::fire('404', compact('routes', 'discovered_handler', 'request_method', 'regex_matches'));
             }
-            else {
-                ToroHook::fire('404');
-            }
-        }
-        else {
-            ToroHook::fire('404');
+        } else {
+            ToroHook::fire('404', compact('routes', 'discovered_handler', 'request_method', 'regex_matches'));
         }
 
-        ToroHook::fire('after_request');
+        ToroHook::fire('after_request', compact('routes', 'discovered_handler', 'request_method', 'regex_matches', 'result'));
     }
 
     private static function is_xhr_request()
