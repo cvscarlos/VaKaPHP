@@ -47,11 +47,10 @@ require_once SITE_PATH.'routers.php';
 
 
 // Página de erro 404
-function error404(){
+ToroHook::add("404", function() {
 	header('HTTP/1.0 404 Not Found');
 	Renderer::renderPage(null,"error404");
-}
-ToroHook::add("404", error404);
+});
 
 
 // Executando o núcleo o framework
