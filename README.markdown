@@ -3,7 +3,7 @@ VaKaPHP Framework
 ------------------
 
 This is a PHP framework compact and functional! 
-Based on [Toro](http://www.toroweb.org) and [MicroMVC](http://www.micromvc.com)
+Based on [Toro](https://github.com/anandkunal/ToroPHP) and [MicroMVC](https://github.com/xeoncross/micromvc)
 
 
 ### Requirements
@@ -18,7 +18,7 @@ This software includes parts that are under the license: [CC](http://www.creativ
 
 
 Este é um framework PHP compacto e funcional!
-Baseado no [Toro](http://www.toroweb.org) e no [MicroMVC](http://www.micromvc.com)
+Baseado no [Toro](https://github.com/anandkunal/ToroPHP) e no [MicroMVC](https://github.com/xeoncross/micromvc)
 
 ### Requerimentos
 
