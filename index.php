@@ -1,7 +1,6 @@
 <?php
 /*
 * VakaPHP Framework < http://github.com/caljp13/VakaPHP >
-* @author Carlos Vinicius <caljp13@gmail.com>
 *
 * @version 2.0
 * @date 2012-01-02
